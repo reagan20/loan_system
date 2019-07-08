@@ -1,0 +1,115 @@
+/*-----------------------------------*\
+  $OBJECTS
+  \*-----------------------------------*/
+
+.butt, .input {
+    padding: .75rem;
+    margin: .375rem;
+
+    background-color: transparent;
+    border-radius: 4px;
+}
+
+.butt:focus, .input:focus {
+    outline: none;
+}
+
+.butt {
+    border: 2px solid #f35626;
+    line-height: 1.375;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+
+    font-weight: 700;
+
+    color: #f35626;
+
+    cursor: pointer;
+    -webkit-animation: hue 60s infinite linear;
+}
+
+.butt--primary {
+    background-color: #f35626;
+    color: #fff;
+}
+
+/*-----------------------------------*\
+  $TYPOGRAPHY
+  \*-----------------------------------*/
+
+
+@media (min-width: 650px) {
+    .mega {
+        font-size: 6rem;
+        line-height: 1;
+    }
+}
+
+.subhead, .meta {
+    color: #7b8993;
+}
+
+.promo {
+    text-align: center;
+}
+
+/*-----------------------------------*\
+  $LAYOUT
+  \*-----------------------------------*/
+
+.wrap {
+    max-width: 38rem;
+    margin: 0 auto;
+}
+
+.island {
+    padding: 1.5rem;
+}
+
+.isle {
+    padding: .75rem;
+}
+
+.spit {
+    padding: .375rem;
+}
+
+/*-----------------------------------*\
+  $HEADER
+  \*-----------------------------------*/
+
+.site__header {
+    -webkit-animation: bounceInUp 1s;
+}
+
+.site__title {
+    color: #f35626;
+    background-image: -webkit-linear-gradient(92deg,#f35626,#feab3a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-animation: hue 60s infinite linear;
+}
+
+.site__content {
+    -webkit-animation: bounceInUp 1s;
+    -webkit-animation-delay: .1s;
+}
+
+.site__content form {
+    -webkit-animation: bounceInUp 1s;
+    -webkit-animation-delay: .1s;
+}
+
+/*-----------------------------------*\
+  $ANIMATIONS
+  \*-----------------------------------*/
+
+@-webkit-keyframes hue {
+    from {
+        -webkit-filter: hue-rotate(0deg);
+    }
+
+    to {
+        -webkit-filter: hue-rotate(-360deg);
+    }
+}
