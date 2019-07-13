@@ -45,8 +45,8 @@ foreach($details as $det) {
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?php echo site_url('System/loan_type');?>">Loan Type</a></li>
-                    <li><a href="<?php echo site_url('System/loan_list');?>">Loan List</a></li>
+                    <li><a href="<?php echo site_url('System/loan_type');?>">Loan Types</a></li>
+                    <li><a href="<?php echo site_url('System/loan_list');?>">Given Loan List</a></li>
                     <li><a href="<?php echo site_url('System/loan_calculator');?>">Loan Calculator</a></li>
                 </ul>
             </li>

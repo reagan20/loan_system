@@ -8,9 +8,27 @@ foreach($details as $det) {
 ?>
     <!-- Content Wrapper -->
     <div class="content-wrapper">
+        <script src="<?php //echo base_url()?>assets/jquery-3.4.1.js"></script>
+        <script type="text/javascript">
+            function getDateTime() {
+                var DateTime=new Date();
+                $('#correct').html(DateTime);
+            }
+            $(document).ready(function () {
+                getDateTime();
+            })
+            // var d = new Date();
+            // alert(d);
+        </script>
+
         <section class="content-title">
             <h1>
                 Dashboard
+                <?php
+                //$date = "2019-07-10";
+                //$days=7;
+                //echo date('Y-m-d', strtotime($date. ' + '.$days.' days'));
+                ?>
                 <small></small>
             </h1>
             <ol class="breadcrumb">
@@ -19,7 +37,15 @@ foreach($details as $det) {
         </section>
         <section class="content">
             <div class="row">
-                <div class="col-sm-6 col-lg-3">
+                <div id="correct">
+                    <!--                    Testing correct date-->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 style="font-weight: bold;">System Summary</h4>
+                </div>
+                <div class="col-sm-6 col-lg-2 col-md-2">
                     <a href="<?php echo site_url('System/members');?>">
                         <div class="info-box2 bg-blue">
                             <div class="info-box-content">
@@ -36,12 +62,12 @@ foreach($details as $det) {
                         </div>
                     </a>
                 </div>
-                <div class="col-sm-6 col-lg-3">
+                <div class="col-sm-6 col-lg-2 col-md-2">
                     <a href="<?php echo site_url('System/contributions');?>">
                         <div class="info-box2 bg-green">
                             <div class="info-box-content">
                                 <i class="fa fa-money text-aqua"></i>
-                                <span class="info-box-text">Total Contribution</span>
+                                <span class="info-box-text">Savings</span>
                                 <span class="info-box-number"><?php foreach($total as $tot);?><?php echo number_format($tot['amount'],2);?></span>
                                 <div class="progress">
                                     <div class="progress-bar" style="width: 60%"></div>
@@ -53,13 +79,13 @@ foreach($details as $det) {
                         </div>
                     </a>
                 </div>
-                <div class="col-sm-6 col-lg-3">
+                <div class="col-sm-6 col-lg-2 col-md-2">
                     <a href="<?php echo site_url('System/withdrawals');?>">
                         <div class="info-box2 bg-navy">
                             <div class="info-box-content">
                                 <i class="fa fa-money text-blue"></i>
                                 <!--<i class="fa fa-users text-blue"></i>-->
-                                <span class="info-box-text">Total Withdrawals</span>
+                                <span class="info-box-text">Withdrawals</span>
                                 <span class="info-box-number"><?php foreach($total_withdraw as $tota);?><?php echo number_format($tota['amount'],2);?></span>
                                 <div class="progress">
                                     <div class="progress-bar" style="width: 60%"></div>
@@ -71,12 +97,12 @@ foreach($details as $det) {
                         </div>
                     </a>
                 </div>
-                <div class="col-sm-6 col-lg-3">
+                <div class="col-sm-6 col-lg-2 col-md-2">
                     <a href="<?php echo site_url('System/account_summary');?>">
                         <div class="info-box2 bg-teal">
                             <div class="info-box-content">
                                 <i class="fa fa-money text-navy"></i>
-                                <span class="info-box-text">Available Cash</span>
+                                <span class="info-box-text">Account Summary</span>
                                 <span class="info-box-number"><?php echo number_format($tot['amount']-$tota['amount'],2);?></span>
                                 <div class="progress">
                                     <div class="progress-bar" style="width: 60%"></div>
@@ -84,6 +110,36 @@ foreach($details as $det) {
                             </div>
                         </div>
                     </a>
+                </div>
+                <div class="col-sm-6 col-lg-2 col-md-2">
+                    <a href="<?php echo site_url('System/loan_list');?>">
+                        <div class="info-box2 bg-gray">
+                            <div class="info-box-content">
+                                <i class="fa fa-money text-navy"></i>
+                                <span class="info-box-text">Given Loan</span>
+                                <span class="info-box-number"><?php
+                                    foreach ($total_loan as $loan){
+                                    echo number_format($loan['expected_amount'],2);
+                                    };?>
+                                </span>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: 60%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-lg-2 col-md-2">
+                    <div class="info-box2 bg-purple">
+                        <div class="info-box-content">
+                            <i class="fa fa-money text-navy"></i>
+                            <span class="info-box-text">Loan Repayment</span>
+                            <span class="info-box-number"><?php foreach ($total_repay as $rep){echo number_format($rep['paid_amount'],2);};?></span>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 60%"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">

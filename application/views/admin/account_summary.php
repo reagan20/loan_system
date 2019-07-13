@@ -3,7 +3,7 @@
 <div class="content-wrapper">
     <section class="content-title">
         <h1>
-            Available Cash
+            Accounts Summary
             <small></small>
         </h1>
         <ol class="breadcrumb">
@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-info">
-                    <div class="panel-heading">Available Cash</div>
+                    <div class="panel-heading">Accounts Summary</div>
                     <div class="panel-body">
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -24,7 +24,7 @@
                                 <th>S/N</th>
                                 <th>National ID</th>
                                 <th>Full Name</th>
-                                <th>Total Contributed</th>
+                                <th>Total Savings</th>
                                 <th>Total Withdrawn</th>
                                 <th>Balance</th>
                             </tr>

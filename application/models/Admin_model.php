@@ -49,6 +49,11 @@ class Admin_model extends CI_Model{
         if($qry){return true;}
         else{return false;}
     }
+    public function addloan_repayment($data){
+        $qry=$this->db->insert('loanrepayment_tbl',$data);
+        if($qry){return true;}
+        else{return false;}
+    }
     //Bulk member upload
     public function members_bulk_upload($data){
         $this->db->insert_batch('members_tbl',$data);
@@ -118,11 +123,17 @@ class Admin_model extends CI_Model{
         $qry=$this->db->get('loan_type');
         if($qry->num_rows()>0){return $qry->row('payment_term');}
     }
+    public function payment_frequency($p){//getting term of payment
+        $this->db->where('type_id',$p);
+        $qry=$this->db->get('loan_type');
+        if($qry->num_rows()>0){return $qry->row('frequency');}
+    }
     public function borrowedloan_details(){
         $this->db->select('*');
         $this->db->from('borrowed_loans');
         $this->db->join('members_tbl','borrowed_loans.borrower_id=members_tbl.member_no');
         $this->db->join('loan_type','borrowed_loans.type_id=loan_type.type_id');
+        $this->db->order_by('loan_dated','DESC');
         $qry=$this->db->get();
         return $qry->result_array();
     }
@@ -442,6 +453,50 @@ class Admin_model extends CI_Model{
         return $qry->result_array();
     }
 
+    public function getborrowedloan_id($id){
+        $this->db->where('borrowedloan_id', $id);
+        $qry=$this->db->get('borrowed_loans');
+        return $qry->result_array();
+        /*if($qry->num_rows()>0){
+            return $qry->row('borrowedloan_id');
+        }*/
+    }
+
+    //getting repayment details
+    public function loan_repayment($id){
+        $this->db->select('*');
+        $this->db->from('loanrepayment_tbl');
+        $this->db->join('borrowed_loans','borrowed_loans.borrowedloan_id=loanrepayment_tbl.borrowloan_id');
+        $this->db->join('payment_mode','loanrepayment_tbl.payment_mode=payment_mode.mode_id');
+        $this->db->where('loanrepayment_tbl.borrowloan_id =',$id);
+        $qry=$this->db->get();
+        return $qry->result_array();
+    }
+
+    //getting total repaid loan
+    public function getPaidAmount($id){
+        $this->db->select_sum('paid_amount');
+        $this->db->where('borrowloan_id',$id);
+        $qry=$this->db->get('loanrepayment_tbl');
+        return $qry->result_array();
+    }
+
+    public function getRepaymentStatus(){
+        $this->db->select_sum('paid_amount');
+        $qry=$this->db->get('loanrepayment_tbl');
+        return $qry->result_array();
+    }
+    public function total_loan(){
+        $this->db->select_sum('expected_amount');
+        $qry=$this->db->get('borrowed_loans');
+        return $qry->result_array();
+    }
+    public function totalloanrepayment(){
+        $this->db->select_sum('paid_amount');
+        $qry=$this->db->get('loanrepayment_tbl');
+        return $qry->result_array();
+    }
+
     /*--------------SELECT QUERIES ENDS HERE-------------------*/
 
     /*--------------UPDATE QUERIES STARTS HERE-------------------*/
@@ -451,6 +506,13 @@ class Admin_model extends CI_Model{
        $qry=$this->db->update('registrationfee_tbl',$data);
        if($qry){return true;}
        else{return false;}
+    }
+    //Update loan repayment
+    public function updaterepayment($id,$data){
+        $this->db->where('repayment_id',$id);
+        $qry=$this->db->update('loanrepayment_tbl',$data);
+        if($qry){return true;}
+        else{return false;}
     }
     //Update contribution/payment
     public function updateContribution($id,$data){
@@ -542,6 +604,18 @@ class Admin_model extends CI_Model{
         if($query){return true;}
         else{return false;}
     }
+    public function deleterepayment($id){
+        $this->db->where('repayment_id',$id);
+        $query=$this->db->delete('loanrepayment_tbl');
+        if($query){return true;}
+        else{return false;}
+    }
+    public function deleteloan($id){
+        $this->db->where('borrowedloan_id',$id);
+        $query=$this->db->delete('borrowed_loans');
+        if($query){return true;}
+        else{return false;}
+    }
     /*--------------DELETE QUERIES ENDS HERE-------------------*/
 
     //Loan calculator processing
@@ -581,18 +655,27 @@ class Admin_model extends CI_Model{
         //payment per term
         $amount_term = number_format(round($amount_total / ($months), 2) + 0, 2, '.', ',');
 
+        if($divisor==1){
+            $period=$months*$divisor;
+        }
+        else{
+            $period=$months;
+        }
+
         //Loan info
         $table = '<div id="calculator"><h4 style="color: blue; font-weight: bold;">Loan Info</h4>';
         $table = $table . '<table class="table-responsive table table-bordered table-striped">';
         $table = $table . '<tr><td>Loan Name:</td><td>'.$loan->loan_type.'</td></tr>';
         $table = $table . '<tr><td>Interest:</td><td>'.$loan->interest_rate.'%</td></tr>';
-        $table = $table . '<tr><td>Months:</td><td>'.$months * $divisor.'</td></tr>';
-        $table = $table . '<tr><td>Frequency:</td><td>Period: '.$loan->frequency.'</td></tr>';
+        $table = $table . '<tr><td>Duration:</td><td>'.$period.'</td></tr>';//.$months * $divisor.
+        $table = $table . '<tr><td>Days:</td><td>'.$period*$days.'</td></tr>';
+        $table = $table . '<tr><td>Frequency(Period):</td><td> '.$loan->frequency.'</td></tr>';
         $table = $table . '</table>';
         $table = $table . '<h4 style="color: blue; font-weight: bold;">Computation</h4>';
         $table = $table . '<table>';
         $table = $table . '<tr><td>Loan Amount:</td><td> '.$this->config->item('currency_symbol') . number_format($amount, 2, '.', ',').'</td></tr>';
-        $table = $table . '<tr><td>Loan Interest:</td><td> '.$this->config->item('currency_symbol') . $amount_interest.'</td></tr>';
+        $table = $table . '<tr><td>Loan Interest:</td><td> '.$this->config->item('currency_symbol') . number_format($amount_interest,2).'</td></tr>';
+        $table = $table . '<tr><td>Amount Per Day:</td><td> '.$this->config->item('currency_symbol') . number_format($amount_total/($period*$days),2).'</td></tr>';
         $table = $table . '<tr><td>Amount Per Month:</td><td> '.$this->config->item('currency_symbol') . $amount_term.'</td></tr>';
         $table = $table . '<tr><td>Total Payment:</td><td> '.$this->config->item('currency_symbol') . number_format($amount_total, 2, '.', ',').'</td></tr>';
         $table = $table . '</table>';
@@ -604,6 +687,14 @@ class Admin_model extends CI_Model{
         }
         $table = $table. '</table></div>';
 
+        $table = $table . '<h4 style="color: blue; font-weight: bold;">Amount Paid per Day</h4>';
+        $table=$table.'<table>';
+        $table = $table . '<table class="table-responsive table table-bordered table-striped">';
+        $table = $table . '<tr><td>Serial #</td><td>Amount('.$this->config->item('currency_symbol') .')</td></tr>';
+        for($x = 1; $x <= $period*$days; $x++){
+            $table = $table . '<tr><td>'.$x.'</td><td>'.number_format($amount_total/($period*$days),2).'</td></tr>';
+        }
+        $table = $table. '</table>';
         return $table;
     }
 

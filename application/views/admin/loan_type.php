@@ -69,7 +69,7 @@ foreach($details as $det) {
             </div>
         </div><br/>
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-4">
                <div class="panel panel-info">
                    <div class="panel-heading"><i class="fa fa-plus"></i> Add Loan Type</div>
                    <div class="panel-body">
@@ -87,7 +87,7 @@ foreach($details as $det) {
                                <select class="form-control" name="frequency" required>
                                    <option value="">Select Frequency</option>
                                    <option value="Monthly">Monthly</option>
-                                   <option value="2 Weeks">2 Weeks</option>
+                                   <option value="Weekly">2 Weeks</option>
                                    <option value="Weekly">Weekly</option>
                                </select>
                            </div>
@@ -103,7 +103,7 @@ foreach($details as $det) {
                    </div>
                </div>
             </div>
-            <div class="col-md-7 col-lg-7">
+            <div class="col-md-8 col-lg-8">
                 <div class="panel panel-info">
                     <div class="panel-heading" style="background-color: #c49f47;"><i class="fa fa-money"></i> Loan Types</div>
                     <div class="panel-body">
@@ -211,8 +211,5 @@ foreach($details as $det) {
             </div>
         </div>
     </section>
-    <!-- /. main content -->
     <span class="return-up"><i class="fa fa-chevron-up"></i></span>
 </div>
-<!-- /. content-wrapper -->
-<!-- Main Footer -->

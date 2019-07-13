@@ -26,47 +26,6 @@ foreach($details as $det) {
                 }
                 ?>
             </div>
-            <div class="col-md-12">
-                <div class="modal fade" id="loantype_modal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Add Loan Type</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form method="post" action="<?php echo site_url('System/addloantype')?>">
-                                    <div class="form-group">
-                                        <label>Loan Name </label><span class="required">*</span>
-                                        <input class="form-control" name="loan_type" placeholder="Loan Name" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Interest Rate</label><span class="required">*</span>
-                                        <input type="number" class="form-control" name="interest_rate" placeholder="Interest Rate in (%)" required>
-                                    </div>
-                                    <div class="form-goup">
-                                        <label>Frequency</label><span class="required">*</span>
-                                        <select class="form-control" name="frequency" required>
-                                            <option value="">Select Frequency</option>
-                                            <option value="Monthly">Monthly</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-goup">
-                                        <label>Payment Term</label><span class="required">*</span>
-                                        <input type="number" class="form-control" name="payment_term" placeholder="Payment Term" required>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" name="loantype_btn" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-                                    </div>
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div><br/>
         <div class="row">
             <div class="col-md-5">
@@ -85,7 +44,7 @@ foreach($details as $det) {
                                     <?php
                                     foreach ($loan_type as $type){
                                         ?>
-                                        <option value="<?php echo $type['type_id'];?>"><?php echo $type['interest_rate'].' % in'.' '.$type['payment_term'].' '.' months';?></option>
+                                        <option value="<?php echo $type['type_id'];?>"><?php echo $type['interest_rate'].' % in'.' '.$type['payment_term'].' ('.$type['frequency'].')';?></option>
                                     <?php
                                     }
                                     ?>

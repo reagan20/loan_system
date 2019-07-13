@@ -88,6 +88,8 @@ class System extends CI_Controller {
 		$data['total']=$this->Admin_model->totalContribution();
 		$data['totMember']=$this->Admin_model->countMembers();
 		$data['total_withdraw']=$this->Admin_model->totalWithdraw();
+		$data['total_loan']=$this->Admin_model->total_loan();
+        $data['total_repay']=$this->Admin_model->totalloanrepayment();
 		$this->load->view('admin/inc/header',$data);
 		$this->load->view('admin/inc/side_section');
 		$this->load->view('admin/index');
@@ -271,9 +273,25 @@ class System extends CI_Controller {
         $data['borrowers']=$this->Admin_model->all_members();
         $data['loan_type']=$this->Admin_model->all_loantypes();
         $data['borrowdetails']=$this->Admin_model->borrowedloan_details();
+        $data['loan_status']=$this->Admin_model->getRepaymentStatus();
         $this->load->view('admin/inc/header',$data);
         $this->load->view('admin/inc/side_section');
         $this->load->view('admin/loan_list');
+        $this->load->view('admin/inc/footer');
+    }
+    public function loan_repayment($id){//getPaidAmount
+        $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['total']=$this->Admin_model->totalContribution();
+        $data['totMember']=$this->Admin_model->countMembers();
+        $data['total_withdraw']=$this->Admin_model->totalWithdraw();
+        $data['loan_type']=$this->Admin_model->all_loantypes();
+        $data['payment_mode']=$this->Admin_model->payment_mode();
+        $data['borrow_id']=$this->Admin_model->getborrowedloan_id($id);
+        $data['repayment_details']=$this->Admin_model->loan_repayment($id);
+        $data['repaid_amount']=$this->Admin_model->getPaidAmount($id);
+        $this->load->view('admin/inc/header',$data);
+        $this->load->view('admin/inc/side_section');
+        $this->load->view('admin/loan_repayment');
         $this->load->view('admin/inc/footer');
     }
     public function loan_calculator(){
@@ -382,6 +400,27 @@ class System extends CI_Controller {
             }
         }
     }
+    public function addloan_repayment(){
+        if(isset($_POST['addrepayment_btn'])){
+            $data=array(
+                'borrowloan_id'=>$this->input->post('borrowedloan_id'),
+                'paid_amount'=>$this->input->post('amount'),
+                //'comment'=>$this->input->post('comment'),
+                'payment_mode'=>$this->input->post('pay_mode'),
+                'payment_date'=>$this->input->post('repayment_date')
+                //'recorded_by'=>$this->session->userdata['member_no']
+            );
+            $result=$this->Admin_model->addloan_repayment($data);
+            if($result){
+                $this->session->set_flashdata('message','<div class="alert alert-success"><button class="close" data-dismiss="alert">&times;</button><strong>Success! </strong>Repayment amount successfully recorded.</div>');
+                redirect('System/loan_repayment/'.$this->input->post('borrowedloan_id'));
+            }
+            else{
+                $this->session->set_flashdata('message','<div class="alert alert-danger"><button class="close" data-dismiss="alert">&times;</button><strong>Sorry! </strong>Repayment amount not recorded. Please try again.</div>');
+                redirect('System/loan_repayment/'.$this->input->post('borrowedloan_id'));
+            }
+        }
+    }
 	public function new_admin(){
 		if(isset($_POST['signup_btn'])){
 			$data=array(
@@ -421,13 +460,36 @@ class System extends CI_Controller {
             }
         }
     }
+    //award loan
     public function addborrowedloan(){
         if(isset($_POST['borrowloan_btn'])){
             //SI=P*(R/100)*(T/12)
-            $interest=$this->Admin_model->interest_rate($this->input->post('frequency'));
+            $interest_rate=$this->Admin_model->interest_rate($this->input->post('frequency'));
             $term=$this->Admin_model->payment_term($this->input->post('frequency'));
-            $i=($interest/100)*($this->input->post('amount'))*$term/12;
+            $frequency=$this->Admin_model->payment_frequency($this->input->post('frequency'));
+            switch ($frequency) {
+                case 'Monthly':
+                    $divisor = 1;
+                    $days = 30;
+                    $tot1=$term*$days;
+                    break;
+                case '2 Weeks':
+                    $divisor = 2;
+                    $days = 15;
+                    $tot1=$term*$days;
+                    break;
+                case 'Weekly':
+                    $divisor = 4;
+                    $days = 7;
+                    $tot1=$term*$days;
+                    break;
+            }
+
+            $i=($interest_rate/100)*($this->input->post('amount'))/$divisor;//*$term/12
             $a=$i+($this->input->post('amount'));
+            $start_date=$this->input->post('start_date');
+            $number_of_days=$tot1;
+            $deadline=date('Y-m-d', strtotime($start_date. ' + '.$number_of_days.' days'));
             $data=array(
                 'borrower_id'=>$this->input->post('borrower'),
                 'type_id'=>$this->input->post('frequency'),
@@ -435,7 +497,8 @@ class System extends CI_Controller {
                 'interest_amount'=>$i,
                 'expected_amount'=>$a,
                 'start_date'=>$this->input->post('start_date'),
-                'loan_status'=>'Active'
+                'deadline_date'=>$deadline,
+                'loan_status'=>'PAID'
             );
             $result=$this->Admin_model->addborrowedloan($data);
             if($result){
@@ -621,6 +684,25 @@ class System extends CI_Controller {
             else{
                 $this->session->set_flashdata('message','<div class="alert alert-danger"><button class="close" data-dismiss="alert">&times;</button><strong>Sorry! </strong>Data not updated. Please try again later.</div>');
                 redirect('System/registrationfee_payment/'.$member);
+            }
+        }
+    }
+    public function updaterepayment(){
+        if(isset($_POST['updaterepay_btn'])){
+            $id=$this->uri->segment(3);
+            $repay=$this->input->post('repay_id');
+            $qry=array(
+                'paid_amount'=>$this->input->post('amount_paid'),
+                'payment_mode'=>$this->input->post('pay_mode')
+            );
+            $update=$this->Admin_model->updaterepayment($id,$qry);
+            if($update){
+                $this->session->set_flashdata('message','<div class="alert alert-success"><button class="close" data-dismiss="alert">&times;</button><strong>Success! </strong>Data successfully updated.</div>');
+                redirect('System/loan_repayment/'.$repay);
+            }
+            else{
+                $this->session->set_flashdata('message','<div class="alert alert-danger"><button class="close" data-dismiss="alert">&times;</button><strong>Sorry! </strong>Data not updated. Please try again later.</div>');
+                redirect('System/loan_repayment/'.$repay);
             }
         }
     }
@@ -827,6 +909,31 @@ class System extends CI_Controller {
 			redirect('System/withdrawals');
 		}
 	}
+    public function deleterepayment(){
+        $id = $this->uri->segment(3);
+        $r=$this->input->post('repay_id');
+        $result=$this->Admin_model->deleterepayment($id);
+        if($result){
+            $this->session->set_flashdata('message', '<div class="alert alert-success"><button class="close" data-dismiss="alert">&times;</button>Data successfully deleted.</div>');
+            redirect('System/loan_repayment/'.$r);
+        }
+        else{
+            $this->session->set_flashdata('message','<div class="alert alert-danger"><button class="close" data-dismiss="alert">&times;</button><strong>Sorry!! </strong> Data not deleted. Please try again later. </div>');
+            redirect('System/loan_repayment/'.$r);
+        }
+    }
+    public function deleteloan(){
+        $id = $this->uri->segment(3);
+        $result=$this->Admin_model->deleteloan($id);
+        if($result){
+            $this->session->set_flashdata('message', '<div class="alert alert-success"><button class="close" data-dismiss="alert">&times;</button>Data successfully deleted.</div>');
+            redirect('System/loan_list');
+        }
+        else{
+            $this->session->set_flashdata('message','<div class="alert alert-danger"><button class="close" data-dismiss="alert">&times;</button><strong>Sorry!! </strong> Data not deleted. Please try again later. </div>');
+            redirect('System/loan_list');
+        }
+    }
 
 	//Session logout
 	public function logout(){
