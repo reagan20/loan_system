@@ -74,7 +74,7 @@ foreach($details as $det) {
            </div>
             <div class="col-md-12">
                 <div class="panel panel-info">
-                    <div class="panel-heading"><i class="fa fa-plus"></i> Add Loan Type</div>
+                    <div class="panel-heading"><i class="fa fa-plus"></i> Give Loan</div>
                     <div class="panel-body">
                         <form method="post" action="<?php echo site_url('System/addborrowedloan');?>">
                             <div class="row">
@@ -117,7 +117,7 @@ foreach($details as $det) {
                                 <div class="col-md-3">
                                     <div class="form-goup">
                                         <label>Loan Start Date: </label><span class="required">*</span>
-                                        <input type="date" class="form-control" name="start_date" placeholder="Start Date" required>
+                                        <input value="<?php echo date('Y-m-d');?>" type="date" class="form-control" name="start_date" placeholder="Start Date" required>
                                     </div>
                                 </div>
                             </div>

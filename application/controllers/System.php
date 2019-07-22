@@ -61,7 +61,7 @@ class System extends CI_Controller {
 						$data=array(
 							'id'=>$id_no,
 							'role'=>'member',
-							'member_no'=>$member_no,
+						 	'member_no'=>$member_no,
 							'isloggedin'=>1
 						);
 						$this->session->set_userdata($data);
@@ -278,6 +278,34 @@ class System extends CI_Controller {
         $this->load->view('admin/inc/side_section');
         $this->load->view('admin/loan_list');
         $this->load->view('admin/inc/footer');
+    }
+    public function reports(){
+        if(isset($_POST['report_btn'])){
+            $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+            $data['total']=$this->Admin_model->totalContribution();
+            $data['totMember']=$this->Admin_model->countMembers();
+            $data['borrowers']=$this->Admin_model->all_members();
+            $data['loan_type']=$this->Admin_model->all_loantypes();
+            $data['borrowdetails']=$this->Admin_model->borrowedloan_details($_POST);
+            $data['loan_status']=$this->Admin_model->getRepaymentStatus();
+            $this->load->view('admin/inc/header',$data);
+            $this->load->view('admin/inc/side_section');
+            $this->load->view('admin/reports');
+            $this->load->view('admin/inc/footer');
+        }
+        else{
+            $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+            $data['total']=$this->Admin_model->totalContribution();
+            $data['totMember']=$this->Admin_model->countMembers();
+            $data['borrowers']=$this->Admin_model->all_members();
+            $data['loan_type']=$this->Admin_model->all_loantypes();
+            $data['borrowdetails']=$this->Admin_model->borrowedloan_details();
+            $data['loan_status']=$this->Admin_model->getRepaymentStatus();
+            $this->load->view('admin/inc/header',$data);
+            $this->load->view('admin/inc/side_section');
+            $this->load->view('admin/reports');
+            $this->load->view('admin/inc/footer');
+        }
     }
     public function loan_repayment($id){//getPaidAmount
         $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));

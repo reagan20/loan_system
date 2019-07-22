@@ -138,6 +138,22 @@ class Admin_model extends CI_Model{
         return $qry->result_array();
     }
 
+    public function activeloans_report($active=array()){
+        //$data=array();
+        $today=date('Y-m-d');
+        $criteria=$active['report_txt'];
+        if($criteria == 1){
+            $this->db->select('*');
+            $this->db->from('borrowed_loans');
+            $this->db->join('members_tbl','borrowed_loans.borrower_id=members_tbl.member_no');
+            $this->db->join('loan_type','borrowed_loans.type_id=loan_type.type_id');
+            $this->db->where('deadline_date < ',$today);
+            $this->db->order_by('loan_dated','DESC');
+            $qry=$this->db->get();
+            return $qry->result_array();
+        }
+    }
+
     //Gettting loggedin member/admin details
     public function member_details($det){
         $this->db->where('id', $det);

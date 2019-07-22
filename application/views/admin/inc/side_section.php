@@ -61,6 +61,7 @@ foreach($details as $det) {
 <!--                    <li><a href="--><?php //echo site_url('System/loan_list');?><!--">Loan List</a></li>-->
 <!--                </ul>-->
 <!--            </li>-->
+            <li><a href="<?php echo site_url('System/reports');?>"><i class="fa fa-sign-out"></i> <span>Reports</span></a></li>
             <li><a href="<?php echo site_url('System/logout');?>"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
         </ul>
         <!-- /. sidebar-menu -->

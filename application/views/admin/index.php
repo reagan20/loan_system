@@ -25,9 +25,9 @@ foreach($details as $det) {
             <h1>
                 Dashboard
                 <?php
-                //$date = "2019-07-10";
-                //$days=7;
-                //echo date('Y-m-d', strtotime($date. ' + '.$days.' days'));
+                /*$date = "2019-07-10";
+                $days=7;
+                echo date('Y-m-d', strtotime($date. ' + '.$days.' days'));*/
                 ?>
                 <small></small>
             </h1>
