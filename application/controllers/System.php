@@ -279,8 +279,8 @@ class System extends CI_Controller {
         $this->load->view('admin/loan_list');
         $this->load->view('admin/inc/footer');
     }
-    public function reports(){
-        if(isset($_POST['report_btn'])){
+    public function active_loans(){
+        /*if(isset($_POST['report_btn'])){
             $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
             $data['total']=$this->Admin_model->totalContribution();
             $data['totMember']=$this->Admin_model->countMembers();
@@ -293,19 +293,45 @@ class System extends CI_Controller {
             $this->load->view('admin/reports');
             $this->load->view('admin/inc/footer');
         }
-        else{
+        else{*/
             $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
             $data['total']=$this->Admin_model->totalContribution();
             $data['totMember']=$this->Admin_model->countMembers();
             $data['borrowers']=$this->Admin_model->all_members();
             $data['loan_type']=$this->Admin_model->all_loantypes();
-            $data['borrowdetails']=$this->Admin_model->borrowedloan_details();
+            $data['borrowdetails']=$this->Admin_model->active_loans();
             $data['loan_status']=$this->Admin_model->getRepaymentStatus();
             $this->load->view('admin/inc/header',$data);
             $this->load->view('admin/inc/side_section');
-            $this->load->view('admin/reports');
+            $this->load->view('admin/active_loans');
             $this->load->view('admin/inc/footer');
-        }
+        //}
+    }
+    public function settled_loans(){
+        $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['total']=$this->Admin_model->totalContribution();
+        $data['totMember']=$this->Admin_model->countMembers();
+        $data['borrowers']=$this->Admin_model->all_members();
+        $data['loan_type']=$this->Admin_model->all_loantypes();
+        $data['borrowdetails']=$this->Admin_model->settled_loans();
+        $data['loan_status']=$this->Admin_model->getRepaymentStatus();
+        $this->load->view('admin/inc/header',$data);
+        $this->load->view('admin/inc/side_section');
+        $this->load->view('admin/settled_loans');
+        $this->load->view('admin/inc/footer');
+    }
+    public function overdue_loans(){
+        $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['total']=$this->Admin_model->totalContribution();
+        $data['totMember']=$this->Admin_model->countMembers();
+        $data['borrowers']=$this->Admin_model->all_members();
+        $data['loan_type']=$this->Admin_model->all_loantypes();
+        $data['borrowdetails']=$this->Admin_model->overdue_loans();
+        $data['loan_status']=$this->Admin_model->getRepaymentStatus();
+        $this->load->view('admin/inc/header',$data);
+        $this->load->view('admin/inc/side_section');
+        $this->load->view('admin/overdue_loans');
+        $this->load->view('admin/inc/footer');
     }
     public function loan_repayment($id){//getPaidAmount
         $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));

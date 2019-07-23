@@ -10,7 +10,7 @@ foreach($details as $det) {
 <div class="content-wrapper">
     <section class="content-title">
         <h1>
-            Awarded Loans
+            Active Loans
             <small></small>
         </h1>
         <ol class="breadcrumb">
@@ -22,9 +22,9 @@ foreach($details as $det) {
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-info" style="min-height: 150px;">
-                    <div class="panel-heading"><i class="fa fa-plus"></i> Add Loan Type</div>
+                    <div class="panel-heading"><i class="fa fa-plus"></i> Active Loans</div>
                     <div class="panel-body">
-                        <div>
+                        <!--<div>
                             <form method="post" action="">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -42,16 +42,16 @@ foreach($details as $det) {
                                     </div>
                                 </div>
                             </form>
-                        </div>
+                        </div>-->
                         <?php
-                        if(isset($_POST['report_btn'])){
+                        //if(isset($_POST['report_btn'])){
                             ?>
                             <div id="repo" style="">
                                 <?php
                                 if($borrowdetails){
                                     ?>
                                     <div class="table-responsive">
-                                        <a href="" class="btn btn-md btn-info"><i class="fa fa-sign-out"></i> Export Pdf</a>
+                                        <a href="" class="btn btn-md btn-danger"><i class="fa fa-sign-out"></i> Export Pdf</a>
                                         <h4>Generated Report</h4>
                                         <table class="table table-bordered table-hover">
                                             <thead>
@@ -62,9 +62,8 @@ foreach($details as $det) {
                                                 <th>Principle</th>
                                                 <th>Interest</th>
                                                 <th>Amount</th>
-                                                <th>Dated</th>
+                                                <th>Loan Date</th>
                                                 <th>Deadline</th>
-                                                <th>Status</th>
                                                 <th>Repay Status</th>
                                             </tr>
                                             </thead>
@@ -73,26 +72,25 @@ foreach($details as $det) {
                                             $count=1;
                                             foreach ($borrowdetails as $details){
                                                 ?>
-                                                <tr>
-                                                    <td><?php echo $count;?>.</td>
-                                                    <td><?php echo $details['first_name'].' '.$details['last_name'].' ('.$details['serial'].')';?></td>
-                                                    <td><?php echo $details['loan_type'];?> </td>
-                                                    <td><?php echo number_format($details['borrowed_amount'],2);?> </td>
-                                                    <td><?php echo number_format($details['interest_amount'],2);?> </td>
-                                                    <td><?php echo number_format($details['expected_amount'],2);?> </td>
-                                                    <td><?php echo $details['start_date'];?> </td>
-                                                    <td><?php echo $details['deadline_date'];?></td>
-                                                    <?php
-                                                    foreach ($loan_status as $state){
-                                                        //$i=$state['borrowloan_id'];
-//                                                if($state['borrowloan_id']==$details['borrowedloan_id']){
-//                                                    echo $details['borrowed_amount'];
-//                                                }
-                                                    }
+                                                <?php
+                                                //if($details['expected_amount'] > $details['paid_amount']){
                                                     ?>
-                                                    <td><?php echo $details['loan_status'];?> </td>
-                                                    <td></td>
-                                                </tr>
+                                                    <tr>
+                                                        <td><?php echo $count;?>.</td>
+                                                        <td><?php echo $details['first_name'].' '.$details['last_name'].' ('.$details['serial'].')';?></td>
+                                                        <td><?php echo $details['loan_type'].' ('.$details['interest_rate'].'%'.' )';?> </td>
+                                                        <td><?php echo number_format($details['borrowed_amount'],2);?> </td>
+                                                        <td><?php echo number_format($details['interest_amount'],2);?> </td>
+                                                        <td><?php echo number_format($details['expected_amount'],2);?> </td>
+                                                        <td><?php echo $details['start_date'];?> </td>
+                                                        <td><?php echo $details['deadline_date'];?></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <?php
+                                                //}
+                                                //else{}
+                                                ?>
+
                                                 <?php
                                                 $count++;
                                             }
@@ -112,7 +110,7 @@ foreach($details as $det) {
                                 ?>
                             </div>
                         <?php
-                        }
+                       // }
                         ?>
 
                     </div>

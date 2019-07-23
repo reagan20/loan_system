@@ -137,6 +137,48 @@ class Admin_model extends CI_Model{
         $qry=$this->db->get();
         return $qry->result_array();
     }
+    public function active_loans(){
+        $today=date('Y-m-d');
+        $this->db->select('*');
+        $this->db->select_sum('paid_amount');
+        $this->db->from('borrowed_loans');
+        $this->db->join('members_tbl','borrowed_loans.borrower_id=members_tbl.member_no');
+        $this->db->join('loan_type','borrowed_loans.type_id=loan_type.type_id');
+        $this->db->join('loanrepayment_tbl','borrowed_loans.borrowedloan_id=loanrepayment_tbl.borrowloan_id','left outer');
+        $this->db->where('deadline_date >',$today);
+        $this->db->where('loanrepayment_tbl.paid_amount <  borrowed_loans.expected_amount');
+        $this->db->order_by('loan_dated','DESC');
+        $qry=$this->db->get();
+        return $qry->result_array();
+    }
+    public function settled_loans(){
+        //$today=date('Y-m-d');
+        $this->db->select('*');
+        $this->db->select_sum('paid_amount');
+        $this->db->from('borrowed_loans');
+        $this->db->join('members_tbl','borrowed_loans.borrower_id=members_tbl.member_no');
+        $this->db->join('loan_type','borrowed_loans.type_id=loan_type.type_id');
+        $this->db->join('loanrepayment_tbl','borrowed_loans.borrowedloan_id=loanrepayment_tbl.borrowloan_id','left outer');
+        //$this->db->where('deadline_date <',$today);
+        $this->db->where('loanrepayment_tbl.paid_amount =  borrowed_loans.expected_amount');
+        $this->db->group_by('loanrepayment_tbl.borrowloan_id');
+        $qry=$this->db->get();
+        return $qry->result_array();
+    }
+    public function overdue_loans(){
+        $today=date('Y-m-d');
+        $this->db->select('*');
+        $this->db->select_sum('paid_amount');
+        $this->db->from('borrowed_loans');
+        $this->db->join('members_tbl','borrowed_loans.borrower_id=members_tbl.member_no');
+        $this->db->join('loan_type','borrowed_loans.type_id=loan_type.type_id');
+        $this->db->join('loanrepayment_tbl','borrowed_loans.borrowedloan_id=loanrepayment_tbl.borrowloan_id','left outer');
+        $this->db->where('deadline_date <',$today);
+        $this->db->where('loanrepayment_tbl.paid_amount < borrowed_loans.expected_amount');
+        $this->db->group_by('loanrepayment_tbl.borrowloan_id');
+        $qry=$this->db->get();
+        return $qry->result_array();
+    }
 
     public function activeloans_report($active=array()){
         //$data=array();
