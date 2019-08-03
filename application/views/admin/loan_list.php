@@ -149,7 +149,7 @@ foreach($details as $det) {
                                         <th>Dated</th>
                                         <th>Deadline</th>
                                         <th>Status</th>
-                                        <th>Repay Status</th>
+                                        <!--<th>Repay Status</th>-->
                                         <th style="width: 20%;">Action</th>
                                     </tr>
                                     </thead>
@@ -176,7 +176,7 @@ foreach($details as $det) {
                                             }
                                             ?>
                                             <td><?php echo $details['loan_status'];?> </td>
-                                            <td></td>
+                                            <!--<td></td>-->
                                             <td>
                                                 <a class="btn btn-info btn-sm" href="<?php echo site_url('System/loan_repayment/'.$details['borrowedloan_id']);?>" ><i class="fa fa-info"></i> Repayment</a>
                                                 <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_loan<?php echo $details['borrowedloan_id'];?>"><i class="fa fa-trash"></i> Delete</a>

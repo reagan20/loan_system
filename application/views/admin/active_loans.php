@@ -51,7 +51,7 @@ foreach($details as $det) {
                                 if($borrowdetails){
                                     ?>
                                     <div class="table-responsive">
-                                        <a href="" class="btn btn-md btn-danger"><i class="fa fa-sign-out"></i> Export Pdf</a>
+                                        <a href="<?php echo site_url('System/activeloansreport');?>" class="btn btn-md btn-danger"><i class="fa fa-sign-out"></i> Export Pdf</a>
                                         <h4>Generated Report</h4>
                                         <table class="table table-bordered table-hover">
                                             <thead>
@@ -64,7 +64,7 @@ foreach($details as $det) {
                                                 <th>Amount</th>
                                                 <th>Loan Date</th>
                                                 <th>Deadline</th>
-                                                <th>Repay Status</th>
+                                                <!--<th>Paid Amount</th>-->
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -72,25 +72,17 @@ foreach($details as $det) {
                                             $count=1;
                                             foreach ($borrowdetails as $details){
                                                 ?>
-                                                <?php
-                                                //if($details['expected_amount'] > $details['paid_amount']){
-                                                    ?>
-                                                    <tr>
-                                                        <td><?php echo $count;?>.</td>
-                                                        <td><?php echo $details['first_name'].' '.$details['last_name'].' ('.$details['serial'].')';?></td>
-                                                        <td><?php echo $details['loan_type'].' ('.$details['interest_rate'].'%'.' )';?> </td>
-                                                        <td><?php echo number_format($details['borrowed_amount'],2);?> </td>
-                                                        <td><?php echo number_format($details['interest_amount'],2);?> </td>
-                                                        <td><?php echo number_format($details['expected_amount'],2);?> </td>
-                                                        <td><?php echo $details['start_date'];?> </td>
-                                                        <td><?php echo $details['deadline_date'];?></td>
-                                                        <td></td>
-                                                    </tr>
-                                                    <?php
-                                                //}
-                                                //else{}
-                                                ?>
-
+                                                <tr>
+                                                    <td><?php echo $count;?>.</td>
+                                                    <td><?php echo $details['first_name'].' '.$details['last_name'].' ('.$details['serial'].')';?></td>
+                                                    <td><?php echo $details['loan_type'].' ('.$details['interest_rate'].'%'.' )';?> </td>
+                                                    <td><?php echo number_format($details['borrowed_amount'],2);?> </td>
+                                                    <td><?php echo number_format($details['interest_amount'],2);?> </td>
+                                                    <td><?php echo number_format($details['expected_amount'],2);?> </td>
+                                                    <td><?php echo $details['start_date'];?> </td>
+                                                    <td><?php echo $details['deadline_date'];?></td>
+                                                    <!--<td><?php //echo $details['paid'];?></td>-->
+                                                </tr>
                                                 <?php
                                                 $count++;
                                             }

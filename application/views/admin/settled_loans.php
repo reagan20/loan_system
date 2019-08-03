@@ -10,19 +10,19 @@ foreach($details as $det) {
 <div class="content-wrapper">
     <section class="content-title">
         <h1>
-            Active Loans
+            Fully Paid Loans
             <small></small>
         </h1>
         <ol class="breadcrumb">
             <li><a href=""><i class="fa fa-home"></i>Dashboard</a></li>
-            <li><a href="#"><i class="fa fa-home"></i>Awarded Loans</a></li>
+            <li><a href="#"><i class="fa fa-home"></i>Fully Paid Loans</a></li>
         </ol>
     </section>
     <section class="content">
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-info" style="min-height: 150px;">
-                    <div class="panel-heading"><i class="fa fa-plus"></i> Active Loans</div>
+                    <div class="panel-heading"><i class="fa fa-plus"></i> Fully Paid Loans</div>
                     <div class="panel-body">
                         <?php
                         //if(isset($_POST['report_btn'])){
@@ -32,7 +32,7 @@ foreach($details as $det) {
                             if($borrowdetails){
                                 ?>
                                 <div class="table-responsive">
-                                    <a href="" class="btn btn-md btn-danger"><i class="fa fa-sign-out"></i> Export Pdf</a>
+                                    <a href="<?php echo site_url('System/settledloansreport');?>" class="btn btn-md btn-danger"><i class="fa fa-sign-out"></i> Export Pdf</a>
                                     <h4>Generated Report</h4>
                                     <table class="table table-bordered table-hover">
                                         <thead>

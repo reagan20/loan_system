@@ -15,7 +15,7 @@ foreach($details as $det){
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Loan System</title>
+    <title>SACCO Management System</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="shortcut icon" href="<?php echo base_url()?>assets/resources/img/favicon.png">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendor/bootstrap/css/bootstrap.min.css">
@@ -67,7 +67,7 @@ foreach($details as $det){
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><img src="<?php echo base_url();?>assets/resources/img/icons/logo-mini.png" class="img-circle" alt="Logo Mini"></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Robisearch SACCO</b></span>
+            <span class="logo-lg"><b>RobiSACCO</b></span>
         </a>
         <!-- Header Navbar -->
         <nav class="navbar navbar-static-top">

@@ -6,12 +6,17 @@ foreach($details as $det) {
     $mail = $det['email'];
 }
 ?>
+<?php
+foreach ($details1 as $ww){
+    $logo=$ww['logo'];
+}
+?>
 <aside class="sidebar-left">
     <section class="sidebar">
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="<?php echo base_url();?>assets/resources/img/icons/icon-user.jpg" class="img-circle" alt="User Image">
+                <img src="<?php echo base_url('assets/uploads/'.$logo);?>" class="img-circle" alt="User Image">
             </div>
             <div class="info">
                 <p><?php echo $fname;?></p>
@@ -25,7 +30,9 @@ foreach($details as $det) {
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li class="treeview"><a href="<?php echo site_url('System/dashboard');?>"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
+            <li class=""><a href="<?php echo site_url('System/system_configuration');?>"><span><i class="fa fa-cog"></i> System Configuration</span></a></li>
             <li class="treeview"><a href="<?php echo site_url('System/members');?>"><i class="fa fa-users"></i> <span>Members</span></a></li>
+            <li class="treeview"><a href="<?php echo site_url('System/expenses');?>"><i class="fa fa-flag"></i> <span>Expense</span></a></li>
             <li class="treeview">
                 <a href="#"><i class="fa fa-google-wallet"></i> <span>Payments</span>
                     <span class="pull-right-container">

@@ -85,6 +85,7 @@ class System extends CI_Controller {
 	}
 	public function dashboard(){
 		$data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['details1']=$this->Admin_model->get_account();
 		$data['total']=$this->Admin_model->totalContribution();
 		$data['totMember']=$this->Admin_model->countMembers();
 		$data['total_withdraw']=$this->Admin_model->totalWithdraw();
@@ -97,6 +98,7 @@ class System extends CI_Controller {
 	}
 	public function members(){
 		$data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['details1']=$this->Admin_model->get_account();
 		$data['gender']=$this->Admin_model->get_gender();
 		$data['members']=$this->Admin_model->all_members();
         $data['max_no']=$this->Admin_model->max_no();//getting maximum member no
@@ -107,6 +109,7 @@ class System extends CI_Controller {
 	}
     public function registration_fee(){
         $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['details1']=$this->Admin_model->get_account();
         $data['gender']=$this->Admin_model->get_gender();
         $data['members']=$this->Admin_model->all_members();
         $data['member1']=$this->Admin_model->registration_fee();
@@ -119,6 +122,7 @@ class System extends CI_Controller {
     }
     public function registrationfee_payment($r){
         $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['details1']=$this->Admin_model->get_account();
         $data['gender']=$this->Admin_model->get_gender();
         $data['members']=$this->Admin_model->all_members();
         $data['member1']=$this->Admin_model->registration_details($r);
@@ -131,6 +135,7 @@ class System extends CI_Controller {
     }
     public function next_kin($no){
         $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['details1']=$this->Admin_model->get_account();
         $data['gender']=$this->Admin_model->get_gender();
         $data['spec_mem']=$this->Admin_model->specific_member($no);
         $data['kin']=$this->Admin_model->next_kin($no);
@@ -152,6 +157,7 @@ class System extends CI_Controller {
             $this->pagination->initialize($config);
 
 			$data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+            $data['details1']=$this->Admin_model->get_account();
 			$data['members']=$this->Admin_model->all_members();
 			//$data['months']=$this->Admin_model->get_months();
 			//$data['payments']=$this->Admin_model->all_payments();
@@ -175,6 +181,7 @@ class System extends CI_Controller {
             $this->pagination->initialize($config);
 
             $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+            $data['details1']=$this->Admin_model->get_account();
             $data['members']=$this->Admin_model->all_members();
             $data['total_randomsearch']=$this->Admin_model->totalRandomSearchContribution($_POST);
             $data['payments']=$this->Admin_model->searchData($_POST);//FALSE,$config['per_page'], $offset,
@@ -194,6 +201,7 @@ class System extends CI_Controller {
 			$this->pagination->initialize($config);
 
 			$data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+            $data['details1']=$this->Admin_model->get_account();
 			$data['members']=$this->Admin_model->all_members();
 			$data['months']=$this->Admin_model->get_months();
 			$data['payments']=$this->Admin_model->all_payments(FALSE,$config['per_page'], $offset);//
@@ -208,6 +216,7 @@ class System extends CI_Controller {
 	public function withdrawals(){
 		if(isset($_POST['withdraw_search'])){
 			$data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+            $data['details1']=$this->Admin_model->get_account();
 			$data['members']=$this->Admin_model->all_members();
 			//$data['months']=$this->Admin_model->get_months();
 			//$data['payments']=$this->Admin_model->all_withdrawals();
@@ -224,6 +233,7 @@ class System extends CI_Controller {
 		}
 		else{
 			$data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+            $data['details1']=$this->Admin_model->get_account();
 			$data['members']=$this->Admin_model->all_members();
 			$data['months']=$this->Admin_model->get_months();
 			$data['withdraw']=$this->Admin_model->all_withdrawals();
@@ -244,6 +254,7 @@ class System extends CI_Controller {
 		//$data['confirm_no']=$this->Admin_model->confirm_no($no);
 
 		$data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['details1']=$this->Admin_model->get_account();
 		$data['members']=$this->Admin_model->all_members();
 		$data['months']=$this->Admin_model->get_months();
 		$data['payments']=$this->Admin_model->all_withdrawals();
@@ -257,6 +268,7 @@ class System extends CI_Controller {
 	}
     public function loan_type(){
         $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['details1']=$this->Admin_model->get_account();
         $data['total']=$this->Admin_model->totalContribution();
         $data['totMember']=$this->Admin_model->countMembers();
         $data['total_withdraw']=$this->Admin_model->totalWithdraw();
@@ -268,6 +280,7 @@ class System extends CI_Controller {
     }
     public function loan_list(){
         $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['details1']=$this->Admin_model->get_account();
         $data['total']=$this->Admin_model->totalContribution();
         $data['totMember']=$this->Admin_model->countMembers();
         $data['borrowers']=$this->Admin_model->all_members();
@@ -277,6 +290,35 @@ class System extends CI_Controller {
         $this->load->view('admin/inc/header',$data);
         $this->load->view('admin/inc/side_section');
         $this->load->view('admin/loan_list');
+        $this->load->view('admin/inc/footer');
+    }
+    public function expenses(){
+        $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['details1']=$this->Admin_model->get_account();
+        $data['total']=$this->Admin_model->totalContribution();
+        $data['totMember']=$this->Admin_model->countMembers();
+        $data['borrowers']=$this->Admin_model->all_members();
+        $data['loan_type']=$this->Admin_model->all_loantypes();
+        $data['expenses']=$this->Admin_model->expenses();
+        $data['total_expense']=$this->Admin_model->getexpense();
+        $this->load->view('admin/inc/header',$data);
+        $this->load->view('admin/inc/side_section');
+        $this->load->view('admin/expenses');
+        $this->load->view('admin/inc/footer');
+    }
+    public function system_configuration(){
+        $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['details1']=$this->Admin_model->get_account();
+        $data['total']=$this->Admin_model->totalContribution();
+        $data['totMember']=$this->Admin_model->countMembers();
+        $data['borrowers']=$this->Admin_model->all_members();
+        $data['loan_type']=$this->Admin_model->all_loantypes();
+        $data['borrowdetails']=$this->Admin_model->active_loans();
+        $data['loan_status']=$this->Admin_model->getRepaymentStatus();
+        $data['sacco_det']=$this->Admin_model->get_account();
+        $this->load->view('admin/inc/header',$data);
+        $this->load->view('admin/inc/side_section');
+        $this->load->view('admin/system_configuration');
         $this->load->view('admin/inc/footer');
     }
     public function active_loans(){
@@ -295,6 +337,7 @@ class System extends CI_Controller {
         }
         else{*/
             $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['details1']=$this->Admin_model->get_account();
             $data['total']=$this->Admin_model->totalContribution();
             $data['totMember']=$this->Admin_model->countMembers();
             $data['borrowers']=$this->Admin_model->all_members();
@@ -309,6 +352,7 @@ class System extends CI_Controller {
     }
     public function settled_loans(){
         $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['details1']=$this->Admin_model->get_account();
         $data['total']=$this->Admin_model->totalContribution();
         $data['totMember']=$this->Admin_model->countMembers();
         $data['borrowers']=$this->Admin_model->all_members();
@@ -322,6 +366,7 @@ class System extends CI_Controller {
     }
     public function overdue_loans(){
         $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['details1']=$this->Admin_model->get_account();
         $data['total']=$this->Admin_model->totalContribution();
         $data['totMember']=$this->Admin_model->countMembers();
         $data['borrowers']=$this->Admin_model->all_members();
@@ -335,6 +380,7 @@ class System extends CI_Controller {
     }
     public function loan_repayment($id){//getPaidAmount
         $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['details1']=$this->Admin_model->get_account();
         $data['total']=$this->Admin_model->totalContribution();
         $data['totMember']=$this->Admin_model->countMembers();
         $data['total_withdraw']=$this->Admin_model->totalWithdraw();
@@ -351,6 +397,7 @@ class System extends CI_Controller {
     public function loan_calculator(){
         if(isset($_POST['calculate_btn'])){
             $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+            $data['details1']=$this->Admin_model->get_account();
             $data['total']=$this->Admin_model->totalContribution();
             $data['totMember']=$this->Admin_model->countMembers();
             $data['total_withdraw']=$this->Admin_model->totalWithdraw();
@@ -363,6 +410,7 @@ class System extends CI_Controller {
         }
         else{
             $data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+            $data['details1']=$this->Admin_model->get_account();
             $data['total']=$this->Admin_model->totalContribution();
             $data['totMember']=$this->Admin_model->countMembers();
             $data['total_withdraw']=$this->Admin_model->totalWithdraw();
@@ -375,12 +423,85 @@ class System extends CI_Controller {
     }
 	public function profile(){
 		$data['details']=$this->Admin_model->member_details($this->session->userdata('id'));
+        $data['details1']=$this->Admin_model->get_account();
 		$this->load->view('admin/inc/header',$data);
 		$this->load->view('admin/inc/side_section');
 		$this->load->view('admin/profile');
 		$this->load->view('admin/inc/footer');
 	}
+    public function addexpense(){
+        if(isset($_POST['expense_btn'])){
+            $receipt='receipt';
+            $receipt_file=$this->upload_receipt($receipt);
+            $qry=array(
+                'expense_name'=>$this->input->post('expense_name'),
+                'expense_amount'=>$this->input->post('expense_amount'),
+                'expense_date'=>$this->input->post('expense_date'),
+                'receipt'=>$receipt_file,
+                'description'=>$this->input->post('description')
+            );
+            $result=$this->Admin_model->addexpense($qry);
+            if($result){
+                $this->session->set_flashdata('message','<div class="alert alert-success"><button class="close" data-dismiss="alert">&times;</button><strong>Success! </strong>Expense successfully added.</div>');
+                redirect('System/expenses');
+            }
+            else{
+                $this->session->set_flashdata('message','<div class="alert alert-danger"><button class="close" data-dismiss="alert">&times;</button><strong>Sorry! </strong>Expense not added. Please try again.</div>');
+                redirect('System/expenses');
+            }
+        }
+    }
+    //function for uploading image
+    public function upload_receipt($passport)
+    {
+        $field_name = $passport;
+        $config['upload_path'] = 'assets/uploads/';
+        $config['allowed_types'] = 'gif|jpg|png|pdf|doc|docx';
+        $config['max_size'] = '2048';
+        $config['max_width'] = '3000';
+        $config['max_height'] = '2900';
+        $config['encrypt_name'] = true;
+        // $this->load->library('upload',$config);
+        $this->upload->initialize($config);
+        if (!$this->upload->do_upload($field_name))
+        {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger">Error occurred while processing the request.<button class="close" data-dismiss="alert" >&times;</button></div>');
+        }
+        else {
+            $file_data = $this->upload->data();
+            $filename = $file_data['file_name'];
+            return $filename;
+        }
 
+    }
+    public function sacco_details(){
+        if(isset($_POST['sacco_btn'])){
+            $confirm=$this->Admin_model->check_account();
+            if($confirm){
+                $this->session->set_flashdata('message','<div class="alert alert-danger"><button class="close" data-dismiss="alert">&times;</button><strong>Sorry! </strong>An account already exist. You can only update the accoount.</div>');
+                redirect('System/system_configuration');
+            }
+            else{
+                $qry=array(
+                    'sacco_name'=>$this->input->post('sacco_name'),
+                    'sacco_phone'=>$this->input->post('sacco_phone'),
+                    'sacco_email'=>$this->input->post('sacco_email'),
+                    'sacco_box'=>$this->input->post('sacco_box'),
+                    'county'=>$this->input->post('county'),
+                    'country'=>$this->input->post('country')
+                );
+                $result=$this->Admin_model->add_sacco_details($qry);
+                if($result){
+                    $this->session->set_flashdata('message','<div class="alert alert-success"><button class="close" data-dismiss="alert">&times;</button><strong>Success! </strong>Details successfully saved.</div>');
+                    redirect('System/system_configuration');
+                }
+                else{
+                    $this->session->set_flashdata('message','<div class="alert alert-danger"><button class="close" data-dismiss="alert">&times;</button><strong>Sorry! </strong>Details not saved. Please try again.</div>');
+                    redirect('System/system_configuration');
+                }
+            }
+        }
+    }
 	public function new_member(){
 		if(isset($_POST['newmember_btn'])){
 			$pass=1234;
@@ -552,7 +673,7 @@ class System extends CI_Controller {
                 'expected_amount'=>$a,
                 'start_date'=>$this->input->post('start_date'),
                 'deadline_date'=>$deadline,
-                'loan_status'=>'PAID'
+                'loan_status'=>'DISBURSED'
             );
             $result=$this->Admin_model->addborrowedloan($data);
             if($result){
@@ -888,8 +1009,107 @@ class System extends CI_Controller {
             }
         }
     }
+    public function updatesacco_details(){
+        if(isset($_POST['updatesacco_btn'])){
+            $id = $this->uri->segment(3);
+                $qry=array(
+                    'sacco_name'=>$this->input->post('sacco_name'),
+                    'sacco_phone'=>$this->input->post('sacco_phone'),
+                    'sacco_email'=>$this->input->post('sacco_email'),
+                    'sacco_box'=>$this->input->post('sacco_box'),
+                    'county'=>$this->input->post('county'),
+                    'country'=>$this->input->post('country')
+                );
+                $result=$this->Admin_model->updatesaccodetails($id,$qry);
+                if($result){
+                    $this->session->set_flashdata('message','<div class="alert alert-success"><button class="close" data-dismiss="alert">&times;</button><strong>Success! </strong>Details successfully updated.</div>');
+                    redirect('System/system_configuration');
+                }
+                else{
+                    $this->session->set_flashdata('message','<div class="alert alert-danger"><button class="close" data-dismiss="alert">&times;</button><strong>Sorry! </strong>Details not updated. Please try again.</div>');
+                    redirect('System/system_configuration');
+                }
+        }
+    }
+    //function for uploading image
+    public function upload_photo($passport)
+    {
+        $field_name = $passport;
+        $config['upload_path'] = 'assets/uploads/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = '2048';
+        $config['max_width'] = '3000';
+        $config['max_height'] = '2900';
+        $config['encrypt_name'] = true;
+
+        // $this->load->library('upload',$config);
+        $this->upload->initialize($config);
+        if (!$this->upload->do_upload($field_name))
+        {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger">Error occurred while processing the request.<button class="close" data-dismiss="alert" >&times;</button></div>');
+        }
+        else {
+            $file_data = $this->upload->data();
+            $filename = $file_data['file_name'];
+            return $filename;
+        }
+
+    }
+    public function update_logo(){
+        if(isset($_POST['update_logo'])){
+            $id=$this->uri->segment(3);
+            $log='logo';
+            $file=$this->upload_photo($log);
+            $data=array(
+                'logo'=>$file
+            );
+            $update=$this->Admin_model->update_logo($id,$data);
+            if($update){
+                $this->session->set_flashdata('message','<div class="alert alert-success"><button class="close" data-dismiss="alert">&times;</button><strong>Success! </strong>Logo successfully updated.</div>');
+                redirect('System/system_configuration');
+            }
+            else{
+                $this->session->set_flashdata('message','<div class="alert alert-danger"><button class="close" data-dismiss="alert">&times;</button><strong>Sorry! </strong>Logo not updated. Please try again.</div>');
+                redirect('System/system_configuration');
+            }
+        }
+    }
+    public function edit_expense(){
+        if(isset($_POST['edit_expense_btn'])){
+            $id=$this->uri->segment(3);
+            $qry=array(
+                'expense_name'=>$this->input->post('expense_name'),
+                'expense_amount'=>$this->input->post('expense_amount'),
+                'expense_date'=>$this->input->post('expense_date'),
+                'description'=>$this->input->post('description')
+            );
+            $result=$this->Admin_model->edit_expense($id,$qry);
+            if($result){
+                $this->session->set_flashdata('message','<div class="alert alert-success"><button class="close" data-dismiss="alert">&times;</button><strong>Success! </strong>Expense successfully updated.</div>');
+                redirect('System/expenses');
+            }
+            else{
+                $this->session->set_flashdata('message','<div class="alert alert-danger"><button class="close" data-dismiss="alert">&times;</button><strong>Sorry! </strong>Expense not updated. Please try again.</div>');
+                redirect('System/expenses');
+            }
+        }
+    }
+
 	/*--------------------------DELETE QUERIES STARTS HERE-------------------------- */
-	//Delete payment
+    //Delete expense
+    public function delete_expense(){
+        $id = $this->uri->segment(3);
+        $result=$this->Admin_model->delete_expense($id);
+        if($result){
+            $this->session->set_flashdata('message', '<div class="alert alert-success"><button class="close" data-dismiss="alert">&times;</button>Expense data successfully deleted.</div>');
+            redirect('System/expenses');
+        }
+        else{
+            $this->session->set_flashdata('message','<div class="alert alert-danger"><button class="close" data-dismiss="alert">&times;</button><strong>Sorry!! </strong> Expense data not deleted. Please try again later. </div>');
+            redirect('System/expenses');
+        }
+    }
+    //Delete payment
 	public function deletePayment(){
 		$id = $this->uri->segment(3);
 		$result=$this->Admin_model->deletePayment($id);
@@ -996,4 +1216,82 @@ class System extends CI_Controller {
 		$this->session->sess_destroy();
 		redirect('System/index');
 	}
+
+    public function activeloansreport(){
+        //Retrieving the member data
+        $data['details']=$this->Admin_model->active_loans();
+        $data['details1']=$this->Admin_model->get_account();
+        //load mpdf library
+        $this->load->library('pdf');
+        $pdf=$this->pdf->load();
+        ini_set('memory_limit','256M');
+        //setting the view to HTML
+        $html=$this->load->view('admin/activeloan_report',$data,true);
+        $pdf->WriteHTML($html);//writing html into the pdf
+        $d=new DateTime();
+        $date=$d->format('d/m/y h:i:s a');
+        $pdf->SetHTMLFooter('<div class="pdf-footer">
+        <strong>Disclaimer: </strong> <i>Active Loan Report.</i>
+        <hr>
+        <i>Generated on '.$date.'</i>
+        </div>
+        ');
+        $active="Active_loan";
+        $output=$active.'_'.date('Y_m_d_H_i').'.pdf';
+        $pdf->Output($output,"D");
+        exit();
+
+    }
+	//generating report
+    public function settledloansreport(){
+        //Retrieving the member data
+        $data['details']=$this->Admin_model->settled_loans();
+        $data['details1']=$this->Admin_model->get_account();
+        //load mpdf library
+        $this->load->library('pdf');
+        $pdf=$this->pdf->load();
+        ini_set('memory_limit','256M');
+        //setting the view to HTML
+        $html=$this->load->view('admin/settledloan_report',$data,true);
+        $pdf->WriteHTML($html);//writing html into the pdf
+        $d=new DateTime();
+        $date=$d->format('d/m/y h:i:s a');
+        $pdf->SetHTMLFooter('<div class="pdf-footer">
+        <strong>Disclaimer: </strong> <i>Fully Settled Loan Report.</i>
+        <hr>
+        <i>Generated on '.$date.'</i>
+        </div>
+        ');
+        $settled="Settled_loan";
+        $output=$settled.'_'.date('Y_m_d_H_i').'.pdf';
+        $pdf->Output($output,"D");
+        exit();
+
+    }
+    public function overdueloansreport(){
+        //Retrieving the member data
+        $data['details']=$this->Admin_model->overdue_loans();
+        $data['details1']=$this->Admin_model->get_account();
+        //load mpdf library
+        $this->load->library('pdf');
+        $pdf=$this->pdf->load();
+        ini_set('memory_limit','256M');
+        //setting the view to HTML
+        $html=$this->load->view('admin/overdueloan_report',$data,true);
+        $pdf->WriteHTML($html);//writing html into the pdf
+        $d=new DateTime();
+        $date=$d->format('d/m/y h:i:s a');
+        $pdf->SetHTMLFooter('<div class="pdf-footer">
+        <strong>Disclaimer: </strong> <i>Overdue/Defaulted Loan Report.</i>
+        <hr>
+        <i>Generated on '.$date.'</i>
+        </div>
+        ');
+        $over="Overdue_loans";
+        date_default_timezone_set("Afric/Kenya");
+        $output=$over.'_'.date('Y_m_d_H_i').'.pdf';
+        $pdf->Output($output,"D");
+        exit();
+
+    }
 }

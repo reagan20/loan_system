@@ -29,6 +29,14 @@ foreach($details as $det) {
                 $days=7;
                 echo date('Y-m-d', strtotime($date. ' + '.$days.' days'));*/
                 ?>
+                <?php
+                $x=2;
+                $y=3;
+                $c=$x.$y;
+                //echo date('m');
+                $serial =`wmic bios get serialnumber 2>&1`;
+                //echo $serial;
+                ?>
                 <small></small>
             </h1>
             <ol class="breadcrumb">

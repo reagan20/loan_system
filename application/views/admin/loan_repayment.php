@@ -58,7 +58,7 @@ if($borrow_id){
                                 </div>
                                 <div class="form-group">
                                     <label>Payment Date:</label>
-                                    <input class="form-control" name="repayment_date" placeholder="Date" type="date" required>
+                                    <input value="<?php echo date('Y-m-d');?>" class="form-control" name="repayment_date" placeholder="Date" type="date" required>
                                 </div>
                                 <div class="form-group">
                                     <button name="addrepayment_btn" type="submit" class="btn btn-md btn-info"><i class="fa fa-save"></i> Save</button>

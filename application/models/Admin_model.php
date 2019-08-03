@@ -1,6 +1,25 @@
 <?php
 class Admin_model extends CI_Model{
     /*--------------INSERT QUERIES STARTS HERE-------------------*/
+    public function add_sacco_details($data){
+        $qry=$this->db->insert('sacco_tbl',$data);
+        if($qry){return true;}
+        else{return false;}
+    }
+    //check account
+    public function check_account(){
+        $qry=$this->db->get('sacco_tbl');
+        if($qry->num_rows()>0){
+            return true;
+        }
+    }
+    public function get_account(){//getting sacco details
+        $qry=$this->db->get('sacco_tbl');
+        if($qry){
+            return $qry->result_array();
+        }
+    }
+
     //New Member
     public function new_member($data){
         $qry=$this->db->insert('members_tbl',$data);
@@ -58,9 +77,20 @@ class Admin_model extends CI_Model{
     public function members_bulk_upload($data){
         $this->db->insert_batch('members_tbl',$data);
     }
+    public function addexpense($data){
+        $qry=$this->db->insert('expense_tbl',$data);
+        if($qry){return true;}
+        else{return false;}
+    }
     /*--------------INSERT QUERIES ENDS HERE-------------------*/
 
     /*--------------SELECT QUERIES STARTS HERE-------------------*/
+    //Getting expense
+    public function getexpense(){
+        $this->db->select_sum('expense_amount');
+        $qry=$this->db->get('expense_tbl');
+        return $qry->result_array();
+    }
     //Getting payment modes
     public function payment_mode(){
         $qry=$this->db->get('payment_mode');
@@ -144,9 +174,10 @@ class Admin_model extends CI_Model{
         $this->db->from('borrowed_loans');
         $this->db->join('members_tbl','borrowed_loans.borrower_id=members_tbl.member_no');
         $this->db->join('loan_type','borrowed_loans.type_id=loan_type.type_id');
-        $this->db->join('loanrepayment_tbl','borrowed_loans.borrowedloan_id=loanrepayment_tbl.borrowloan_id','left outer');
+        $this->db->join('loanrepayment_tbl','loanrepayment_tbl.borrowloan_id=borrowed_loans.borrowedloan_id','left');
         $this->db->where('deadline_date >',$today);
         $this->db->where('loanrepayment_tbl.paid_amount <  borrowed_loans.expected_amount');
+        $this->db->group_by('borrowloan_id');
         $this->db->order_by('loan_dated','DESC');
         $qry=$this->db->get();
         return $qry->result_array();
@@ -240,7 +271,11 @@ class Admin_model extends CI_Model{
         }
     }
     /*-------------------QUERY FOR THE MEMBER MODULE------------------------------*/
-
+    //Getting expenses
+    public function expenses(){
+        $qry=$this->db->get('expense_tbl');
+        if($qry){return $qry->result_array();}
+    }
     //Display all members
     public function all_members(){
         $this->db->select('*');
@@ -558,6 +593,13 @@ class Admin_model extends CI_Model{
     /*--------------SELECT QUERIES ENDS HERE-------------------*/
 
     /*--------------UPDATE QUERIES STARTS HERE-------------------*/
+    //updatre org logo
+    public function update_logo($id,$data){
+        $this->db->where('sacco_id',$id);
+        $qry=$this->db->update('sacco_tbl',$data);
+        if($qry){return true;}
+        else{return false;}
+    }
     //Update registration fee
     public function updateregfee($id,$data){
        $this->db->where('reg_id',$id);
@@ -625,9 +667,28 @@ class Admin_model extends CI_Model{
         if($qry){return true;}
         else{return false;}
     }
+    public function updatesaccodetails($id,$data){
+        $this->db->where('sacco_id',$id);
+        $qry=$this->db->update('sacco_tbl',$data);
+        if($qry){return true;}
+        else{return false;}
+    }
+    public function edit_expense($id,$data){
+        $this->db->where('expense_id',$id);
+        $qry=$this->db->update('expense_tbl',$data);
+        if($qry){return true;}
+        else{return false;}
+    }
     /*--------------UPDATE QUERIES ENDS HERE-------------------*/
 
     /*--------------DELETE QUERIES STARTS HERE-------------------*/
+    //Delete expense
+    public function delete_expense($id){
+        $this->db->where('expense_id',$id);
+        $query=$this->db->delete('expense_tbl');
+        if($query){return true;}
+        else{return false;}
+    }
     //Delete reg fee
     public function deleteregfee($id){
         $this->db->where('reg_id',$id);

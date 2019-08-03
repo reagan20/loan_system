@@ -32,7 +32,7 @@ foreach($details as $det) {
                             if($borrowdetails){
                                 ?>
                                 <div class="table-responsive">
-                                    <a href="" class="btn btn-md btn-danger"><i class="fa fa-sign-out"></i> Export Pdf</a>
+                                    <a href="<?php echo site_url('System/overdueloansreport');?>" class="btn btn-md btn-danger"><i class="fa fa-sign-out"></i> Export Pdf</a>
                                     <h4>Generated Report</h4>
                                     <table class="table table-bordered table-hover">
                                         <thead>
